@@ -1,10 +1,12 @@
 package com.dev.abhisek30.adapter_delegate
 
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.abhisek30.adapter_delegate.databinding.ItemBannerBinding
 import com.dev.abhisek30.adapter_delegate.databinding.ItemCampaignBinding
+import com.dev.abhisek30.adapter_delegate.databinding.ItemCategoryBinding
 import com.dev.abhisek30.adapter_delegate.databinding.ItemFeaturedBinding
 import com.dev.abhisek30.adapter_delegate.databinding.ItemPromotionBinding
 import com.dev.abhisek30.adapter_delegate.model.*
@@ -52,6 +54,9 @@ fun featuredAdapterDelegate() =
             appAdapter.setItems(item.apps)
             binding.tvTitle.text = item.title
             binding.tvSubTitle.text = item.subTitle
+            binding.ivNext.setOnClickListener {
+                it.findNavController().navigate(R.id.action_mainFragment_to_categoryFragment)
+            }
         }
     }
 
@@ -72,5 +77,17 @@ fun promotionAdapterDelegate() =
             binding.tvAppName.text = item.app.name
             binding.tvAppDeveloper.text = item.app.developer
             binding.tvAppRating.text = item.app.size.toString()
+        }
+    }
+
+fun categoryAdapterDelegate(listner : ItemClickListner) =
+    adapterDelegateViewBinding<Category, DisplayableItem, ItemCategoryBinding>(
+        { layoutInflater, root -> ItemCategoryBinding.inflate(layoutInflater, root, false) }
+    ) {
+        bind {
+            binding.tvTitle.text = item.categoryName
+            binding.tvTitle.setOnClickListener {
+                listner.showToastMessage(item.categoryName)
+            }
         }
     }

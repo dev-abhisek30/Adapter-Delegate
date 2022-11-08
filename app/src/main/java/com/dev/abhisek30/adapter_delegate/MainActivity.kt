@@ -17,31 +17,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        setupViewModel()
-        setupAdapter()
-        observeViewModel()
-        viewModel.createDummyDisplayableItems()
-    }
-
-    private fun setupViewModel() {
-        viewModel = MainViewModel()
-    }
-
-    private fun setupAdapter() {
-        adapter = MainAdapter()
-        binding.recyclerMain.apply {
-            adapter = this@MainActivity.adapter
-            layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
-            itemAnimator = DefaultItemAnimator()
-        }
-    }
-
-    private fun observeViewModel() {
-        viewModel.apply {
-            displayableItems.observe(this@MainActivity) {
-                adapter.items = it
-            }
-        }
     }
 }

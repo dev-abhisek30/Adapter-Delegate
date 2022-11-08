@@ -2,6 +2,7 @@ package com.dev.abhisek30.adapter_delegate
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.abhisek30.adapter_delegate.databinding.ItemAppBinding
 import com.dev.abhisek30.adapter_delegate.model.App
@@ -27,6 +28,9 @@ class AppAdapter : RecyclerView.Adapter<AppAdapter.AppViewHolder>() {
         fun bind(data: App) {
             binding.tvTitle.text = data.name
             binding.tvSize.text = "${data.size} MB"
+            binding.cardImage.setOnClickListener {
+                it.findNavController().navigate(R.id.action_mainFragment_to_appDetailsFragment)
+            }
         }
     }
 
