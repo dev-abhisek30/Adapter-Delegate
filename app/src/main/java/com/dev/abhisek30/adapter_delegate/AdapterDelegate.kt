@@ -80,14 +80,19 @@ fun promotionAdapterDelegate() =
         }
     }
 
-fun categoryAdapterDelegate(listner : ItemClickListner) =
+fun categoryAdapterDelegate(listener : (ItemClickListner) -> Unit) =
     adapterDelegateViewBinding<Category, DisplayableItem, ItemCategoryBinding>(
         { layoutInflater, root -> ItemCategoryBinding.inflate(layoutInflater, root, false) }
     ) {
         bind {
             binding.tvTitle.text = item.categoryName
             binding.tvTitle.setOnClickListener {
-                listner.showToastMessage(item.categoryName)
+                listener(ItemClickListner.showToastMessage(item.categoryName,bindingAdapterPosition))
+            }
+
+            binding.tvTitle.setOnLongClickListener {
+                listener(ItemClickListner.showLongToastMessage(item.categoryName,bindingAdapterPosition))
+                true
             }
         }
     }

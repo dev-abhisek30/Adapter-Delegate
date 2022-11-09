@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dev.abhisek30.adapter_delegate.databinding.FragmentCategoryBinding
 import com.dev.abhisek30.adapter_delegate.databinding.FragmentMainBinding
 
-class CategoryFragment : Fragment() , ItemClickListner {
+class CategoryFragment : Fragment() {
     private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
 
@@ -38,11 +38,24 @@ class CategoryFragment : Fragment() , ItemClickListner {
     }
 
     private fun setupAdapter() {
-        adapter = CategoryAdapter(this)
+        adapter = CategoryAdapter() {
+            handleItemClick(it)
+        }
         binding.recyclerCategory.apply {
             adapter = this@CategoryFragment.adapter
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             itemAnimator = DefaultItemAnimator()
+        }
+    }
+
+    private fun handleItemClick(it: ItemClickListner) {
+        when(it) {
+            is ItemClickListner.showToastMessage -> {
+                Toast.makeText(requireContext(),it.data + " Short Press", Toast.LENGTH_SHORT).show()
+            }
+            is ItemClickListner.showLongToastMessage -> {
+                Toast.makeText(requireContext(),it.data + " Long Press", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -57,10 +70,5 @@ class CategoryFragment : Fragment() , ItemClickListner {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    //handle with lamdas
-    override fun showToastMessage(data: String) {
-        Toast.makeText(requireContext(),data, Toast.LENGTH_SHORT).show()
     }
 }

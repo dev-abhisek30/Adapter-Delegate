@@ -1,5 +1,7 @@
 package com.dev.abhisek30.adapter_delegate
 
-interface ItemClickListner {
-    fun showToastMessage(data:String)
+sealed class ItemClickListner {
+    data class showToastMessage(val data: String, val adapterPosition: Int) : ItemClickListner()
+
+    data class showLongToastMessage(val data: String, val bindingAdapterPosition: Int) : ItemClickListner()
 }
